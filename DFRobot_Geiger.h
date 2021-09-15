@@ -75,7 +75,8 @@ private:
   bool refresh1;
   bool refresh2;
   bool refresh3;
-
+  float Pulse1[10];
+  bool first1;
 };
 
 

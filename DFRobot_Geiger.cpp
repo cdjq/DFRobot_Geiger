@@ -51,11 +51,13 @@ uint16_t DFRobot_Geiger::getCPM()
 {
   float CPM;
   uint32_t minutes;
+  static uint8_t i = 0;
+  
   if(startMeasure == false){
      minutes = (endTime - startTime1);
   } else {
 	 minutes = (millis() - startTime1); 
-     if(minutes>10000) refresh1 = true;
+     if(i == 10) refresh1 = true;
   }
   CPM = (60000000)/(minutes-10);
   CPM = CPM/1000;
@@ -64,10 +66,26 @@ uint16_t DFRobot_Geiger::getCPM()
   CPM = CPM*numPulse1;
   //DBG(CPM);
   
+  if(first1 == true){
+	  uint32_t numAll = 0;
+	  i = 0;
+	  for(uint8_t i = 5 ; i < 10; i++){
+		  
+		 numAll += Pulse1[i];
+	  }
+	  
+	  CPM = numAll / 5;
+	  first1 = false;
+   } else {
+	   Pulse1[i++] = CPM;
+   }
+  
   if(refresh1 == true){
+	     //Serial.println("------------------------");
 		startTime1 =  millis();
         numPulse1 = 0;
 		refresh1 = false;
+		first1 = true;
   }
   return (uint16_t)CPM;
 }
@@ -81,7 +99,7 @@ uint16_t DFRobot_Geiger::getnSvh()
      minutes = (endTime - startTime2);
   } else {
 	 minutes = (millis() - startTime2); 
-     if(minutes>10000) refresh2 = true;
+     if(minutes>30000) refresh2 = true;
   }
   CPM = (60000000)/(minutes-10);
   CPM = CPM/1000;
@@ -105,7 +123,7 @@ float DFRobot_Geiger::getuSvh()
      minutes = (endTime - startTime3);
   } else {
 	 minutes = (millis() - startTime3); 
-     if(minutes>10000) refresh3 = true;
+     if(minutes>30000) refresh3 = true;
   }
   CPM = (60000000)/(minutes-10);
   CPM = CPM/1000;

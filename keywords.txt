@@ -1,27 +1,23 @@
 #######################################
-# Syntax Coloring Map For DFRobot_GM60
+# Syntax Coloring Map For DFRobot_Geiger
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
 
-DFRobot_GM60	KEYWORD1
-DFRobot_GM60_IIC	KEYWORD1
-DFRobot_GM60_UART	KEYWORD1
+DFRobot_Geiger	KEYWORD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-begin	KEYWORD2
-encode	KEYWORD2
-setupCode	KEYWORD2
-setHeadData	KEYWORD2
-setIdentify	KEYWORD2
-reset	KEYWORD2
-detection	KEYWORD2
-
-
+start	KEYWORD2
+pause	KEYWORD2
+getCPM	KEYWORD2
+getnSvh	KEYWORD2
+getuSvh	KEYWORD2
+random	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
