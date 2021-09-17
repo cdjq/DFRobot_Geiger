@@ -8,7 +8,7 @@
 该脉冲信号经过处理，驱动蜂鸣器输出‘哒哒’声，并由数字电路计数。  <br>
 计数的基本单位为CPM，即为每分钟脉冲数，再根据盖革管数据表中的<br>
 转换系数，即可将CPM转换为辐射强度单位μSv。<br>
-![正反面svg效果图](https://github.com/cdjq/DFRobot_Geiger/raw/master/resources/images/SEN0245svg4.png)
+![正反面svg效果图](https://github.com/cdjq/DFRobot_Geiger/raw/master/resources/images/SEN0245svg1.png)
 
 ## 输出信号与计算
 
