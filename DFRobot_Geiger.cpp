@@ -51,41 +51,57 @@ uint16_t DFRobot_Geiger::getCPM()
 {
   float CPM;
   uint32_t minutes;
-  static uint8_t i = 0;
+  static uint8_t pos = 0;
+  static uint8_t tail = 0;
+  static uint8_t head = 0;
   
   if(startMeasure == false){
      minutes = (endTime - startTime1);
   } else {
 	 minutes = (millis() - startTime1); 
-     if(i == 10) refresh1 = true;
+     if(pos == 10) refresh1 = true;
   }
   CPM = (60000000)/(minutes-10);
   CPM = CPM/1000;
-  //DBG(CPM);
+  //DBG(minutes);
   //DBG(numPulse1);
   CPM = CPM*numPulse1;
-  //DBG(CPM);
+//DBG(CPM);
+ // if(pos >= 10){
+//	  pos = 0;
+  //}
+
+  Pulse1[tail] = CPM;
+  pos++;
+  tail ++;
+  tail = (tail)%BUFFER_SIZE;
   
-  if(first1 == true){
+  //DBG(tail);
+  if(first1){
 	  uint32_t numAll = 0;
-	  i = 0;
-	  for(uint8_t i = 5 ; i < 10; i++){
-		  
-		 numAll += Pulse1[i];
+	  head  = (tail +7)%BUFFER_SIZE;
+	  for(uint8_t i = 5 ; i < 8; i++){
+		 
+		 head++;
+		
+		 head =(head)%BUFFER_SIZE;
+		  //Serial.print(head); Serial.print(" "); 
+		 numAll += Pulse1[head];
+		 
+		 
 	  }
 	  
-	  CPM = numAll / 5;
-	  first1 = false;
-   } else {
-	   Pulse1[i++] = CPM;
-   }
+	  CPM = numAll / 3;
+	  first1 --;
+   } 
   
   if(refresh1 == true){
-	     //Serial.println("------------------------");
+//Serial.println("------------------------");
 		startTime1 =  millis();
         numPulse1 = 0;
 		refresh1 = false;
-		first1 = true;
+		first1 = 3;
+		pos = 0;
   }
   return (uint16_t)CPM;
 }
@@ -95,20 +111,53 @@ uint16_t DFRobot_Geiger::getnSvh()
 	
   float CPM;
   uint32_t minutes;
+  static uint8_t pos = 0;
+  static uint8_t tail = 0;
+  static uint8_t head = 0;
+  
   if(startMeasure == false){
      minutes = (endTime - startTime2);
   } else {
 	 minutes = (millis() - startTime2); 
-     if(minutes>30000) refresh2 = true;
+     if(pos == 10) refresh2 = true;
   }
   CPM = (60000000)/(minutes-10);
   CPM = CPM/1000;
+
   CPM = CPM*numPulse2;
-  //DBG(numPulse2);
+
+
+  Pulse2[tail] = CPM;
+  pos++;
+  tail ++;
+  tail = (tail)%BUFFER_SIZE;
+  
+  //DBG(tail);
+  if(first2){
+	  uint32_t numAll = 0;
+	  head  = (tail +7)%BUFFER_SIZE;
+	  for(uint8_t i = 5 ; i < 8; i++){
+		 
+		 head++;
+		
+		 head =(head)%BUFFER_SIZE;
+		  //Serial.print(head); Serial.print(" "); 
+		 numAll += Pulse2[head];
+		 
+		 
+	  }
+	  
+	  CPM = numAll / 3;
+	  first2 --;
+   } 
+  
   if(refresh2 == true){
+//Serial.println("------------------------");
 		startTime2 =  millis();
         numPulse2 = 0;
 		refresh2 = false;
+		first2 = 3;
+		pos = 0;
   }
   //DBG(CPM);
   return (float(CPM/151))*1000;
@@ -117,22 +166,57 @@ uint16_t DFRobot_Geiger::getnSvh()
 
 float DFRobot_Geiger::getuSvh()
 {
-  float CPM;
+float CPM;
   uint32_t minutes;
+  static uint8_t pos = 0;
+  static uint8_t tail = 0;
+  static uint8_t head = 0;
+  
   if(startMeasure == false){
      minutes = (endTime - startTime3);
   } else {
 	 minutes = (millis() - startTime3); 
-     if(minutes>30000) refresh3 = true;
+     if(pos == 10) refresh3 = true;
   }
   CPM = (60000000)/(minutes-10);
   CPM = CPM/1000;
+  //DBG(CPM);
+  //DBG(numPulse1);
   CPM = CPM*numPulse3;
   //DBG(CPM);
+ // if(pos >= 10){
+//	  pos = 0;
+  //}
+
+  Pulse3[tail] = CPM;
+  pos++;
+  tail ++;
+  tail = (tail)%BUFFER_SIZE;
+  
+  //DBG(tail);
+  if(first3){
+	  uint32_t numAll = 0;
+	  head  = (tail +7)%BUFFER_SIZE;
+	  for(uint8_t i = 5 ; i < 8; i++){
+		 
+		 head++;
+		
+		 head =(head)%BUFFER_SIZE;
+		  //Serial.print(head); Serial.print(" "); 
+		 numAll += Pulse3[head]; 
+	  }
+	  
+	  CPM = numAll / 3;
+	  first3 --;
+   } 
+  
   if(refresh3 == true){
+//Serial.println("------------------------");
 		startTime3 =  millis();
         numPulse3 = 0;
 		refresh3 = false;
+		first3 = 3;
+		pos = 0;
   }
   
   return (float)CPM/151;

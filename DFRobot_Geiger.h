@@ -21,7 +21,7 @@
 #else
 #define DBG(...)
 #endif
-
+#define BUFFER_SIZE 10
 class DFRobot_Geiger{
 
 public:
@@ -44,7 +44,7 @@ public:
   
   /*!
    * @brief 获取当前CPM，若已暂停，则CPM为暂停前最后数值
-     @return CPM值
+   * @return CPM值
    */
   uint16_t getCPM();
   
@@ -75,8 +75,12 @@ private:
   bool refresh1;
   bool refresh2;
   bool refresh3;
-  float Pulse1[10];
-  bool first1;
+  float Pulse1[BUFFER_SIZE];
+  float Pulse2[BUFFER_SIZE];
+  float Pulse3[BUFFER_SIZE];
+  uint8_t first1;
+  uint8_t first2;
+  uint8_t first3;
 };
 
 
