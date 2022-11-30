@@ -11,16 +11,16 @@
 */
 
 #include <DFRobot_Geiger.h>
-uint32_t numPulse1;
-uint32_t numPulse2;
-uint32_t numPulse3;
+long numPulse1;
+long numPulse2;
+long numPulse3;
 DFRobot_Geiger::DFRobot_Geiger(int pin)
 {
   _intPin = pin;
   startMeasure = false;
 }
 
-void isr(){
+void Geigeisr(){
 	numPulse1++;
 	numPulse2++;
 	numPulse3++;
@@ -30,7 +30,7 @@ void DFRobot_Geiger::start()
 {
 	
   pinMode(_intPin, INPUT);
-  attachInterrupt(digitalPinToInterrupt(_intPin),isr, FALLING);
+  attachInterrupt(digitalPinToInterrupt(_intPin),Geigeisr, FALLING);
   startMeasure = true;
   numPulse1 = 0;
   numPulse2 = 0;
@@ -50,7 +50,7 @@ void DFRobot_Geiger::pause()
 uint16_t DFRobot_Geiger::getCPM()
 {
   float CPM;
-  uint32_t minutes;
+  long minutes;
   static uint8_t pos = 0;
   static uint8_t tail = 0;
   static uint8_t head = 0;
@@ -78,7 +78,7 @@ uint16_t DFRobot_Geiger::getCPM()
   
   //DBG(tail);
   if(first1){
-	  uint32_t numAll = 0;
+	  long numAll = 0;
 	  head  = (tail +7)%BUFFER_SIZE;
 	  for(uint8_t i = 5 ; i < 8; i++){
 		 
@@ -110,7 +110,7 @@ uint16_t DFRobot_Geiger::getnSvh()
 {
 	
   float CPM;
-  uint32_t minutes;
+  long minutes;
   static uint8_t pos = 0;
   static uint8_t tail = 0;
   static uint8_t head = 0;
@@ -134,7 +134,7 @@ uint16_t DFRobot_Geiger::getnSvh()
   
   //DBG(tail);
   if(first2){
-	  uint32_t numAll = 0;
+	  long numAll = 0;
 	  head  = (tail +7)%BUFFER_SIZE;
 	  for(uint8_t i = 5 ; i < 8; i++){
 		 
@@ -167,7 +167,7 @@ uint16_t DFRobot_Geiger::getnSvh()
 float DFRobot_Geiger::getuSvh()
 {
 float CPM;
-  uint32_t minutes;
+  long minutes;
   static uint8_t pos = 0;
   static uint8_t tail = 0;
   static uint8_t head = 0;
@@ -195,7 +195,7 @@ float CPM;
   
   //DBG(tail);
   if(first3){
-	  uint32_t numAll = 0;
+	  long numAll = 0;
 	  head  = (tail +7)%BUFFER_SIZE;
 	  for(uint8_t i = 5 ; i < 8; i++){
 		 
@@ -224,5 +224,5 @@ float CPM;
 
 uint16_t DFRobot_Geiger::random()
 {
-
+return 1;
 }
